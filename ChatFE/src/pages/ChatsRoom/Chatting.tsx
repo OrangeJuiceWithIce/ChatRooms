@@ -6,6 +6,7 @@ import './Chatting.css';
 
 interface ChattingTitleProps{
     Room:RoomPreviewInfo|null;
+    userName:string;
 }
 
 function MessageItem(props:Message){
@@ -54,7 +55,7 @@ function Chatting(props:ChattingTitleProps&MessageList&{onSubmit:(props:MessageA
                 <Chats messages={props.messages} />
             </div>
             <input id="ChattingInput"></input>
-            <button className="SendButton" onClick={()=>props.onSubmit({'roomId':props.Room?props.Room.roomId:0,'content':(document.getElementById('ChattingInput') as HTMLInputElement).value,'sender':'Amy'})}>发送</button>
+            <button className="SendButton" onClick={()=>props.onSubmit({'roomId':props.Room?props.Room.roomId:0,'content':(document.getElementById('ChattingInput') as HTMLInputElement).value,'sender':props.userName})}>发送</button>
         </div>
     )
 }

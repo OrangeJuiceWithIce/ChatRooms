@@ -5,8 +5,14 @@ import {Message,MessageAddArgs,RoomPreviewInfo, RoomAddArgs,RoomDeleteArgs} from
 import './ChatsRoom.css';
 import { getFetcher, postFetcher } from './fetcher.ts';
 import useSWR from 'swr';
+import {useNavigate,useLocation} from "react-router-dom";
 
 const ChatsRoom = () => {
+    let navigate=useNavigate();
+
+    const location=useLocation();
+    const userName=location.state.userName;
+
     //房间列表数据钩子
     const {data:RoomListRes,mutate:mutateRoomList}=useSWR<{rooms:RoomPreviewInfo[]}>('/api/room/list',getFetcher);
     //房间列表数据
@@ -60,6 +66,27 @@ const ChatsRoom = () => {
             }
         }
     }
+    
+
+    //用户下拉菜单
+    const[userMenu,setUserMenu]=useState(false);
+    const handleUserMenu=()=>{
+        setUserMenu(!userMenu);
+        setisAdding(false);
+    }
+    const userMenuList=()=>{
+        return(
+            <div className='userMenuContainer'>
+                <div className='userMenuList'>
+                    <ul style={{listStyle:'none',padding:0,margin:0}}>
+                        <li>用户信息</li>
+                        <li onClick={()=>{setUserMenu(false);navigate('/')}}>退出登录</li>
+                    </ul>
+                </div>
+            </div>
+        )
+    }
+
 
 
     //是否在添加房间
@@ -67,6 +94,7 @@ const ChatsRoom = () => {
     //添加房间函数
     const handleAdd=()=>{
         setisAdding(!isAdding);
+        setUserMenu(false);
     }
     //提交房间信息函数
     const handleSubmit=async (props:RoomAddArgs)=>{
@@ -78,12 +106,12 @@ const ChatsRoom = () => {
     //添加房间的表单
     const AddList=()=>{
         return(
-            <div className='addRoomForm'>
+            <div className={`addRoomForm`}>
                 <label htmlFor='roomName'>房间名称:</label>
                 <input type='text' id='roomName' required></input>
                 <br/>
-                <button id='createRoom' onClick={()=>{handleSubmit({'user':'Amy','roomName':(document.getElementById('roomName') as HTMLInputElement).value})}}>创建房间</button>
-                <button id='cancelAdd' onClick={()=>{setisAdding(false)}}>突然不想创建了</button>
+                <button id='createRoom' onClick={()=>{handleSubmit({'user':userName,'roomName':(document.getElementById('roomName') as HTMLInputElement).value})}}>创建房间</button>
+                <button id='cancelAdd' onClick={()=>{setisAdding(false)}}>取消创建</button>
             </div>
         )
     }
@@ -125,13 +153,18 @@ const ChatsRoom = () => {
                 selectedId={selectRoom!==null?getList[selectRoom].roomId:null}  //当前选中的房间id
                 
                 onAdd={handleAdd}  //添加房间函数
+                userName={userName}  //当前用户名称
+                onUserMenu={handleUserMenu}  //用户下拉菜单函数
             />
             <Chatting
                 Room={selectRoom!==null?getList[selectRoom]:null}  //当前选中的房间数据
                 messages={MessageList}  //聊天记录数据
                 onSubmit={handleMessage}  //提交消息函数
+
+                userName={userName}  //当前用户名称
             />
             {isAdding?AddList():null}
+            {userMenu?userMenuList():null}
         </div>
     );
 }

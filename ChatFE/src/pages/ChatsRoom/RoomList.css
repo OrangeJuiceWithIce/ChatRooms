@@ -21,6 +21,17 @@
                 -15px -15px -15px #f8ffff;
 }
 
+.user{
+    fill:#afafaf;
+}
+
+.user:hover{
+    fill:#5f5f5f;
+    background: #ffffff;
+    box-shadow:  15px 15px 15px #d4dbe0,
+                -15px -15px -15px #f8ffff;
+}
+
 .RoomList{
     width:240px;
     height:600px;
@@ -78,4 +89,17 @@
 
     height:15px;
     margin:5px;
+}
+
+.userName{
+    display:inline-block;
+    position:relative;
+    bottom:5px;
+    left:10px;
+
+    width:150px;
+    font-size:14px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
