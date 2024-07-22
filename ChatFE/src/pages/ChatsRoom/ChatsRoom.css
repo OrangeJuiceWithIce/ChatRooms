@@ -1,0 +1,35 @@
+.ChatsRoom{
+    display: flex;
+    flex-direction: row;
+}
+
+.addRoomForm{
+    position:absolute;  /*悬浮在其他组件上方*/
+    top:50px;
+    z-index:999;
+
+    width:230px;
+    height:100px;
+
+    border: 1px solid #afafaf;
+    border-radius:5px;
+    background-color: #ffffff;
+
+    padding:10px;
+}
+
+.addRoomForm input{
+    width:67%;
+    height:20px;
+}
+
+#createRoom{
+    position:absolute;
+    bottom:10px;
+}
+
+#cancelAdd{
+    position:absolute;
+    bottom:10px;
+    left:131px;
+}
