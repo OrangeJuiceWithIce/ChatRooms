@@ -44,7 +44,7 @@ const ChatsRoom = () => {
 
     
      //消息列表数据钩子
-     const {data:messagesRes,mutate:mutateMessages}=useSWR<{messages:Message[]}>(selectRoom!==null?`/api/room/message/list?roomId=${getList[selectRoom].roomId}`:null,selectRoom!==null?getFetcher:null);
+     const {data:messagesRes,mutate:mutateMessages}=useSWR<{messages:Message[]}>(selectRoom!==null? `/api/room/message/list?roomId=${getList[selectRoom].roomId}`:null,selectRoom!==null?getFetcher:null);
      //消息数据
      const [MessageList,setMessageList]=useState<Message[]>([])
      //更新房间消息数据
@@ -63,6 +63,9 @@ const ChatsRoom = () => {
         if (selectRoom !== null){
             if(selectRoom===index){
                 setSelectRoom(null);
+            }
+            if(selectRoom>index){
+                setSelectRoom(selectRoom-1);
             }
         }
     }
@@ -140,8 +143,10 @@ const ChatsRoom = () => {
 
     //定时调用更新消息函数
     useEffect(() => {
-        const intervalId = setInterval(handleUpdate, 1000);
-        return () => clearInterval(intervalId);
+        if(selectRoom!==null){
+            const intervalId = setInterval(handleUpdate, 1000);
+            return () => clearInterval(intervalId);
+        }
     }, [selectRoom, MessageList]);
 
     return(

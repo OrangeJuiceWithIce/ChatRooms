@@ -57,6 +57,7 @@ app.post('/api/room/add',(req,res)=>{
             res.status(500).json({msg:'add room error',code:1,data:null});
             return;
         };
+        console.log('往数据库中添加房间成功');
         db.query(getquery,(err,result)=>{
             if(err){
                 console.log('获取房间Id失败:',err);

@@ -1,5 +1,5 @@
 import {useNavigate} from 'react-router-dom'
-
+import './SetName.css'
 function setName(){
     let navigate=useNavigate();
 
@@ -10,13 +10,15 @@ function setName(){
     }
 
     return(
-        <div>
-            <h1>Set your name here!</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='userName'></label>
-                <input type='text' id='userName'></input>
-                <button type='submit'>提交</button>
-            </form>
+        <div className='setNameContainer'>
+            <div className='setName'>
+                <h1>Set your name here!</h1>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor='userName'></label>
+                    <input type='text' id='userName'></input>
+                    <button type='submit'>提交</button>
+                </form>
+            </div>
         </div>
     );
 }
